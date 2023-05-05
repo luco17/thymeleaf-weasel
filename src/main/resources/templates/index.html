@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  lang="en"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Taming Thymeleaf</title>
+    <link rel="stylesheet" th:href="@{/css/application.css}" />
+  </head>
+  <body>
+    <div class="space-y-4 py-8">
+      <h1
+        th:text="${pageTitle}"
+        class="text-4xl font-bold border-b-4 border-teal-400"
+      >
+        Taming Thymeleaf
+      </h1>
+      <div class="mx-6">
+        <ul class="list-disc">
+          <li th:each="scientist : ${scientists}">
+            <span th:text="${scientist}"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
