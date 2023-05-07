@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+  <!--/*@thymesVar id="activeMenuItem" type="java.lang.String"*/-->
   <a
     class="group flex items-center rounded-md p-2 text-sm font-medium"
     th:classappend="${activeMenuItem == menuItem}? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"

@@ -7,15 +7,6 @@
     th:fragment="mobile"
     x-show="isVisible()"
   >
-    <!--
-      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-      Entering: "transition-opacity ease-linear duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "transition-opacity ease-linear duration-300"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
     <div
       class="fixed inset-0 bg-gray-600 bg-opacity-75"
       x-cloak
@@ -29,15 +20,6 @@
     ></div>
 
     <div class="fixed inset-0 z-40 flex">
-      <!--
-                                                                Off-canvas menu, show/hide based on off-canvas menu state.
-                                                                Entering: "transition ease-in-out duration-300 transform"
-                                                                  From: "-translate-x-full"
-                                                                  To: "translate-x-0"
-                                                                Leaving: "transition ease-in-out duration-300 transform"
-                                                                  From: "translate-x-0"
-                                                                  To: "-translate-x-full"
-                                                              -->
       <div
         class="relative flex w-full max-w-xs flex-1 flex-col bg-white pb-4 pt-5"
         x-cloak
@@ -49,15 +31,6 @@
         x-transition:leave-end="-translate-x-full"
         x-transition:leave-start="translate-x-0"
       >
-        <!--
-                                                                                                                          Close button, show/hide based on off-canvas menu state.
-                                                                                                                          Entering: "ease-in-out duration-300"
-                                                                                                                            From: "opacity-0"
-                                                                                                                            To: "opacity-100"
-                                                                                                                          Leaving: "ease-in-out duration-300"
-                                                                                                                            From: "opacity-100"
-                                                                                                                            To: "opacity-0"
-                                                                                                                        -->
         <div class="absolute right-0 top-0 -mr-12 pt-2">
           <button
             @click="closeSidebar"
@@ -97,10 +70,10 @@
               th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Dashboard', menuItem='dashboard', icon='dashboard')}"
             ></a>
             <a
-              th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Team', menuItem='team', icon='team')}"
+              th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/users}, title='Users', menuItem='users', icon='users')}"
             ></a>
             <a
-              th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Projects', menuItem='projects', icon='projects')}"
+              th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/teams}, title='Teams', menuItem='teams', icon='user-group')}"
             ></a>
             <a
               th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Calendar', menuItem='calendar', icon='calendar')}"
@@ -144,10 +117,10 @@
             th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Dashboard', menuItem='dashboard', icon='dashboard')}"
           ></a>
           <a
-            th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Team', menuItem='team', icon='team')}"
+            th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/users}, title='Users', menuItem='users', icon='users')}"
           ></a>
           <a
-            th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Projects', menuItem='projects', icon='projects')}"
+            th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/teams}, title='Teams', menuItem='teams', icon='user-group')}"
           ></a>
           <a
             th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Calendar', menuItem='calendar', icon='calendar')}"
