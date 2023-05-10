@@ -38,3 +38,6 @@ node_modules
 
 ### Secrets ###
 .env
+
+### application properties ###
+application-local.properties
