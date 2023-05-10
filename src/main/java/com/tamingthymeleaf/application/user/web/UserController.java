@@ -1,6 +1,8 @@
 package com.tamingthymeleaf.application.user.web;
 
 import com.tamingthymeleaf.application.user.UserService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +19,11 @@ public class UserController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("users", service.getAllUsers());
+    public String index(Model model, @SortDefault.SortDefaults({
+            @SortDefault("userName.lastName"),
+            @SortDefault("userName.firstName")
+    }) Pageable pageable) {
+        model.addAttribute("users", service.getUsers(pageable));
         return "users/list";
     }
 }
