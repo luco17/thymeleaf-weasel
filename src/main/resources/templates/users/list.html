@@ -60,7 +60,9 @@
                     </tr>
                   </tbody>
                 </table>
-                <div th:replace="~{fragments/pagination}"></div>
+                <div
+                  th:replace="~{fragments/pagination ::controls(page=${users})}"
+                ></div>
               </div>
             </div>
           </div>

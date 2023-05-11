@@ -5,30 +5,51 @@
   xmlns:th="http://www.thymeleaf.org"
 >
   <body>
+    <!--/*@thymesVar id="page" type="org.springframework.data.domain.Page"*/-->
     <nav
       aria-label="Pagination"
       class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+      th:fragment="controls"
+      th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder)}"
     >
       <div class="hidden sm:block">
-        <p class="text-sm text-gray-700">
+        <p class="text-sm text-gray-700" id="pagination-summary">
           Showing
-          <span class="font-medium">1</span>
+          <span
+            class="font-medium"
+            th:text="${(page.getSize() * page.getNumber()) + 1}"
+            >1</span
+          >
           to
-          <span class="font-medium">10</span>
+          <span
+            class="font-medium"
+            th:text="${(page.getSize() * page.getNumber()) + page.getNumberOfElements()}"
+            >10</span
+          >
           of
-          <span class="font-medium">20</span>
+          <span class="font-medium" th:text="${page.getTotalElements()}"
+            >20</span
+          >
           results
         </p>
       </div>
       <div class="flex flex-1 justify-between sm:justify-end">
         <a
-          class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
-          href="#"
+          class="relative inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium leading-5"
+          id="pagination-previous"
+          th:classappend="${page.isFirst()}?'pointer-events-none text-gray-200 border-gray-200':'border-gray-300 text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'"
+          th:disabled="${page.isFirst()}"
+          th:href="${page.isFirst()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number - 1).toUriString()}"
+          th:text="Previous"
           >Previous</a
         >
         <a
-          class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
-          href="#"
+          class="relative ml-3 inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium leading-5"
+          id="pagination-next"
+          th:classappend="${page.isLast()}?'pointer-events-none text-gray-200 border-gray-200':'border-gray-300 text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'"
+          th:disabled="${page.isLast()}"
+          th:href="${page.isLast()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number + 1).toUriString()}"
+          th:text-="Next"
           >Next</a
         >
       </div>
