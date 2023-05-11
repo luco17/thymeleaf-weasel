@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html
+        layout:decorate="~{layout/layout}"
+        th:with="activeMenuItem='users'"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>Users</title>
+</head>
+<body>
+<div layout:fragment="page-content">
+    <h2 class="px-4 text-2xl font-semibold text-gray-900">Create user</h2>
+    <div class="mt-4 sm:px-4">
+        <form
+                class="bg-white px-4 py-6 shadow sm:rounded-lg"
+                id="user-form"
+                method="post"
+                th:action="@{/users/create}"
+                th:object="${user}"
+        >
+            <!--Input fields-->
+            <div
+                    class="grid grid-cols-1 gap-x-6 gap-y-8 border-b border-gray-200 pb-10 sm:grid-cols-6"
+            >
+                <!--Gender radio-->
+                <div class="sm:col-span-6">
+                    <label class="block text-sm font-medium text-gray-700" th:text="Gender">Gender</label>
+                    <div>
+                        <th:block th:each="possibleGender,iter : ${genders}">
+                            <input class="mr-1 focus:ring-green-500 h-4 w-4 text-green-500 border-gray-300"
+                                   th:classappend="${iter.index > 0 ? 'ml-4':''}"
+                                   th:field="*{gender}"
+                                   th:id="${'gender-'+possibleGender}"
+                                   th:value="${possibleGender}"
+                                   type="radio"
+                            >
+                            <label class="text-sm font-medium text-gray-700"
+                                   th:for="${'gender-'+possibleGender}"
+                                   th:text="${possibleGender}">
+                            </label>
+
+                        </th:block>
+                    </div>
+                </div>
+                <!--End gender radio -->
+                <!--Start first name-->
+                <div class="sm:col-span-3">
+                    <label
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            for="firstName"
+                    >First name</label
+                    >
+                    <div class="mt-2">
+                        <input
+                                autocomplete="given-name"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                id="firstName"
+                                th:field="*{firstName}"
+                                type="text"
+                        />
+                    </div>
+                </div>
+                <!--End first name-->
+                <!--Start last name-->
+                <div class="sm:col-span-3">
+                    <label
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            for="lastName"
+                    >Last name</label
+                    >
+                    <div class="mt-2">
+                        <input
+                                autocomplete="family-name"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                id="lastName"
+                                th:field="*{lastName}"
+                                type="text"
+                        />
+                    </div>
+                </div>
+                <!--End last name-->
+                <!--Start email-->
+                <div class="sm:col-span-4">
+                    <label
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            for="email"
+                    >Email address</label
+                    >
+                    <div class="mt-2">
+                        <input
+                                autocomplete="email"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                id="email"
+                                th:field="*{email}"
+                                type="email"
+                        />
+                    </div>
+                </div>
+                <!--End email-->
+                <!--Start phone-->
+                <div class="sm:col-span-4">
+                    <label
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            for="phoneNumber"
+                    >Phone number</label
+                    >
+                    <div class="mt-2">
+                        <input
+                                autocomplete="tel"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                id="phoneNumber"
+                                th:field="*{phoneNumber}"
+                                type="tel"
+                        />
+                    </div>
+                </div>
+                <!--End number-->
+                <div class="hidden sm:col-span-2 sm:block"></div>
+                <!--Start birthday-->
+                <div class="sm:col-span-2">
+                    <label
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            for="birthday"
+                    >Birthday</label
+                    >
+                    <div class="mt-2">
+                        <input
+                                autocomplete="bday"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                id="birthday"
+                                th:field="*{birthday}"
+                                type="date"
+                        />
+                    </div>
+                </div>
+                <!--End birthday-->
+                <!--End fields-->
+            </div>
+
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+                <button
+                        class="text-sm font-semibold leading-6 text-gray-900 transition-colors duration-150 ease-in-out hover:text-gray-700"
+                        type="button"
+                >
+                    Cancel
+                </button>
+                <button
+                        class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        type="submit"
+                >
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
