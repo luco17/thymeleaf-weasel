@@ -41,6 +41,8 @@
                             </label>
 
                         </th:block>
+                        <p class="mt-2 text-sm text-red-600" th:errors="*{gender}"
+                           th:if="${#fields.hasErrors('gender')}"></p>
                     </div>
                 </div>
                 <!--End gender radio -->
