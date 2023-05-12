@@ -6,6 +6,7 @@ import com.tamingthymeleaf.application.user.PhoneNumber;
 import com.tamingthymeleaf.application.user.UserName;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,12 +17,12 @@ public class CreateUserFormData {
     private String firstName;
     @NotBlank
     private String lastName;
-    @NotBlank
+    @NotNull
     private Gender gender;
     @NotBlank
     @Email
     private String email;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @NotBlank

@@ -2,11 +2,15 @@ package com.tamingthymeleaf.application.user.web;
 
 import com.tamingthymeleaf.application.user.Gender;
 import com.tamingthymeleaf.application.user.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -35,5 +39,20 @@ public class UserController {
         model.addAttribute("user", new CreateUserFormData());
         model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
         return "users/edit";
+    }
+
+    @PostMapping("/create")
+    public String doCreateUser(@Valid @ModelAttribute("user")
+                               CreateUserFormData formData,
+                               BindingResult bindingResult,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
+            return "users/edit";
+        }
+        service.createUser(formData.toParameters());
+
+        return "redirect:/users";
+
     }
 }
