@@ -19,6 +19,8 @@
                 th:action="@{/users/create}"
                 th:object="${user}"
         >
+            <!--Error summary-->
+            <div th:replace="fragments/forms :: fieldErrors"></div>
             <!--Input fields-->
             <div
                     class="grid grid-cols-1 gap-x-6 gap-y-8 border-b border-gray-200 pb-10 sm:grid-cols-6"
