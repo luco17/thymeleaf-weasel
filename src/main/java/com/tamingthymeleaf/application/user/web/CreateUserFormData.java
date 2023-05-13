@@ -12,21 +12,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@NotExistingUser
 public class CreateUserFormData {
-    @NotBlank
+    @NotBlank(message = "Please enter a first name")
     private String firstName;
-    @NotBlank
+    @NotBlank(message = "Please enter a last name")
     private String lastName;
-    @NotNull
+    @NotNull(message = "Please pick a gender")
     private Gender gender;
-    @NotBlank
+    @NotBlank(message = "Please enter a valid email address")
     @Email
     private String email;
-    @NotNull
+    @NotNull(message = "Please enter a birthdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
-    @NotBlank
-    @Pattern(regexp = "[0-9.\\-() x/+]+")
+    @NotBlank(message = "Please enter a valid phone number")
+    @Pattern(regexp = "[0-9.\\-() x/+]+", message = "Must be a valid phone number")
     private String phoneNumber;
 
     public String getFirstName() {
