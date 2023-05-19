@@ -1,5 +1,7 @@
 package com.tamingthymeleaf.application.user.web;
 
+import com.tamingthymeleaf.application.infrastructure.validation.ValidationGroupOne;
+import com.tamingthymeleaf.application.infrastructure.validation.ValidationGroupTwo;
 import com.tamingthymeleaf.application.user.CreateUserParameters;
 import com.tamingthymeleaf.application.user.Gender;
 import com.tamingthymeleaf.application.user.PhoneNumber;
@@ -12,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-@NotExistingUser
+@NotExistingUser(groups = ValidationGroupTwo.class)
 public class CreateUserFormData {
     @NotBlank(message = "Please enter a first name")
     private String firstName;
@@ -21,13 +23,13 @@ public class CreateUserFormData {
     @NotNull(message = "Please pick a gender")
     private Gender gender;
     @NotBlank(message = "Please enter a valid email address")
-    @Email
+    @Email(groups = ValidationGroupOne.class)
     private String email;
     @NotNull(message = "Please enter a birthdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @NotBlank(message = "Please enter a valid phone number")
-    @Pattern(regexp = "[0-9.\\-() x/+]+", message = "Must be a valid phone number")
+    @Pattern(regexp = "[0-9.\\-() x/+]+", message = "Must be a valid phone number", groups = ValidationGroupOne.class)
     private String phoneNumber;
 
     public String getFirstName() {

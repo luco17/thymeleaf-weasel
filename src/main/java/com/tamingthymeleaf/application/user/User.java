@@ -44,19 +44,39 @@ public class User extends AbstractEntity<UserId> {
         return userName;
     }
 
+    public void setUserName(UserName userName) {
+        this.userName = userName;
+    }
+
     public Gender getGender() {
         return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public LocalDate getBirthday() {
         return birthday;
     }
 
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
     public Email getEmail() {
         return email;
     }
 
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

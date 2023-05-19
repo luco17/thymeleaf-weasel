@@ -1,17 +1,15 @@
 package com.tamingthymeleaf.application.user.web;
 
-import com.tamingthymeleaf.application.user.Gender;
-import com.tamingthymeleaf.application.user.UserService;
-import jakarta.validation.Valid;
+import com.tamingthymeleaf.application.infrastructure.validation.ValidationGroupSequence;
+import com.tamingthymeleaf.application.infrastructure.web.EditMode;
+import com.tamingthymeleaf.application.user.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,17 +40,26 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String doCreateUser(@Valid @ModelAttribute("user")
+    public String doCreateUser(@Validated(ValidationGroupSequence.class) @ModelAttribute("user")
                                CreateUserFormData formData,
                                BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
+            model.addAttribute("editMode", EditMode.CREATE);
             return "users/edit";
         }
         service.createUser(formData.toParameters());
 
         return "redirect:/users";
+    }
 
+    @GetMapping("/{id}")
+    public String editUserForm(@PathVariable("id") UserId userId, Model model) {
+        User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        model.addAttribute("user", EditUserFormData.fromUser(user));
+        model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
+        model.addAttribute("editMode", EditMode.UPDATE);
+        return "users/edit";
     }
 }
