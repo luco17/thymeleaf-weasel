@@ -1,6 +1,5 @@
 package com.tamingthymeleaf.application.user.web;
 
-import com.tamingthymeleaf.application.infrastructure.validation.ValidationGroupSequence;
 import com.tamingthymeleaf.application.infrastructure.web.EditMode;
 import com.tamingthymeleaf.application.user.*;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String doCreateUser(@Validated(ValidationGroupSequence.class) @ModelAttribute("user")
+    public String doCreateUser(@Validated(CreateUserValidationGroupSequence.class) @ModelAttribute("user")
                                CreateUserFormData formData,
                                BindingResult bindingResult,
                                Model model) {
@@ -61,5 +60,22 @@ public class UserController {
         model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
         model.addAttribute("editMode", EditMode.UPDATE);
         return "users/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String doEditUser(@PathVariable("id") UserId userId,
+                             @Validated(EditUserValidationGroupSequence.class)
+                             @ModelAttribute("user") EditUserFormData formData,
+                             BindingResult bindingResult,
+                             Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
+            model.addAttribute("editMode", EditMode.UPDATE);
+            return "users/edit";
+        }
+
+        service.editUser(userId, formData.toParameters());
+
+        return "redirect:/users";
     }
 }
