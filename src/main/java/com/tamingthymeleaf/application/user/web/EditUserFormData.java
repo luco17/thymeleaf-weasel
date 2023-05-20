@@ -40,7 +40,7 @@ public class EditUserFormData extends CreateUserFormData {
         return version;
     }
 
-    public void setVersion(long Version) {
+    public void setVersion(long version) {
         this.version = version;
     }
 }

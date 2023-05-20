@@ -1,6 +1,6 @@
 package com.tamingthymeleaf.application.user;
 
-import io.github.wimdeblauwe.jpearl.AbstractEntity;
+import io.github.wimdeblauwe.jpearl.AbstractVersionedEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tt_user")
-public class User extends AbstractEntity<UserId> {
+public class User extends AbstractVersionedEntity<UserId> {
 
     @NotNull
     private UserName userName;
