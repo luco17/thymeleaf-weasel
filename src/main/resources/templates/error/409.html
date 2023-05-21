@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  layout:decorate="~{layout/layout}"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <title>Error</title>
+  </head>
+  <body>
+    <!--/*@thymesVar id="url" type="String"*/-->
+    <div layout:fragment="page-content">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 md:px-8">
+        <div class="space-y-4 py-4">
+          <p>
+            There is a version conflict. This can happen when you're working on
+            two browsers or someone is editing the same thing as you. Please
+            reload the page and redo your edit.
+          </p>
+          <a
+            class="flex items-center text-sm text-green-600 hover:text-green-900"
+            th:href="${url}"
+          >
+            <svg class="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                clip-rule="evenodd"
+                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+            <span>Back to previous page</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

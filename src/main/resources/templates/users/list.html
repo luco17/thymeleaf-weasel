@@ -11,7 +11,7 @@
   <body>
     <div layout:fragment="page-content">
       <div
-        th:replace="fragments/titles :: title-with-button(title='Users', buttonIcon='user-add', buttonText='Add users', buttonLink=@{/users/create})"
+        th:replace="~{fragments/titles :: title-with-button(title='Users', buttonIcon='user-add', buttonText='Add users', buttonLink=@{/users/create})}"
       ></div>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <div class="py-4">
@@ -55,7 +55,7 @@
                         th:replace="~{fragments/table :: data(contents=${user.email.asString()}, hideOnMobile=true)}"
                       ></td>
                       <td
-                        th:replace="~{fragments/table :: dataWithLink(linkText='Edit', linkUrl='#')}"
+                        th:replace="~{fragments/table :: dataWithLink(linkText='Edit', linkUrl=@{'/users/'+${user.id.asString()}})}"
                       ></td>
                     </tr>
                   </tbody>

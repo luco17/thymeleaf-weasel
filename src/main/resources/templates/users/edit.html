@@ -10,13 +10,15 @@
 </head>
 <body>
 <div layout:fragment="page-content">
-    <h2 class="px-4 text-2xl font-semibold text-gray-900">Create user</h2>
+    <h2 class="px-4 text-2xl font-semibold text-gray-900"
+        th:text="${editMode?.name() == 'UPDATE'} ? 'Edit user' : 'Create user'"
+    >Create user</h2>
     <div class="mt-4 sm:px-4">
         <form
                 class="bg-white px-4 py-6 shadow sm:rounded-lg"
                 id="user-form"
                 method="post"
-                th:action="@{/users/create}"
+                th:action="${editMode?.name() == 'UPDATE'} ? @{/users/{id}(id=${user.id})} : @{/users/create}"
                 th:object="${user}"
         >
             <!--Error summary-->
@@ -25,6 +27,7 @@
             <div
                     class="grid grid-cols-1 gap-x-6 gap-y-8 border-b border-gray-200 pb-10 sm:grid-cols-6"
             >
+                <input th:field="*{version}" th:if="${editMode?.name() == 'UPDATE'}" type="hidden">
                 <!--Gender radio-->
                 <div class="sm:col-span-6">
                     <label class="block text-sm font-medium text-gray-700" th:text="Gender">Gender</label>
@@ -177,6 +180,7 @@
                 </a>
                 <button
                         class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        th:text="${editMode?.name() == 'UPDATE'} ? 'Save changes' : 'Create'"
                         type="submit"
                 >
                     Save
