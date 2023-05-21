@@ -6,7 +6,7 @@ public class EditUserFormData extends CreateUserFormData {
     private String id;
     private long version;
 
-    public static EditUserFormData fromUser(User user) {
+    public static EditUserFormData formUser(User user) {
         EditUserFormData result = new EditUserFormData();
         result.setId(user.getId().asString());
         result.setVersion(user.getVersion());

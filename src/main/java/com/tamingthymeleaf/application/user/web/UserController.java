@@ -56,7 +56,7 @@ public class UserController {
     @GetMapping("/{id}")
     public String editUserForm(@PathVariable("id") UserId userId, Model model) {
         User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        model.addAttribute("user", EditUserFormData.fromUser(user));
+        model.addAttribute("user", EditUserFormData.formUser(user));
         model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
         model.addAttribute("editMode", EditMode.UPDATE);
         return "users/edit";
@@ -75,6 +75,18 @@ public class UserController {
         }
 
         service.editUser(userId, formData.toParameters());
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/ex")
+    public String throwException() {
+        throw new RuntimeException("This is a fake exception for testing");
+    }
+
+    @PostMapping("/{id}/delete")
+    public String doDeleteUser(@PathVariable("id") UserId userId) {
+        service.deleteUser(userId);
 
         return "redirect:/users";
     }
