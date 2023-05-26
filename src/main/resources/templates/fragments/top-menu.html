@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  xmlns:th="http://www.thymeleaf.org"
+>
   <div
     class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow"
     th:fragment="menu"
@@ -54,14 +57,14 @@
           </div>
 
           <!--
-                                                        Dropdown menu, show/hide based on menu state.
-                                                        Entering: "transition ease-out duration-100"
-                                                          From: "transform opacity-0 scale-95"
-                                                          To: "transform opacity-100 scale-100"
-                                                        Leaving: "transition ease-in duration-75"
-                                                          From: "transform opacity-100 scale-100"
-                                                          To: "transform opacity-0 scale-95"
-                                                      -->
+                                                                    Dropdown menu, show/hide based on menu state.
+                                                                    Entering: "transition ease-out duration-100"
+                                                                      From: "transform opacity-0 scale-95"
+                                                                      To: "transform opacity-100 scale-100"
+                                                                    Leaving: "transition ease-in duration-75"
+                                                                      From: "transform opacity-100 scale-100"
+                                                                      To: "transform opacity-0 scale-95"
+                                                                  -->
           <div
             aria-labelledby="user-menu-button"
             aria-orientation="vertical"
@@ -78,6 +81,14 @@
             x-transition:leave-start="opacity-100 scale-100"
           >
             <!-- Active: "bg-gray-100", Not Active: "" -->
+            <div
+              class="block border-b px-4 py-2 font-mono text-sm text-gray-700"
+              sec:authentication="name"
+            ></div>
+            <div
+              class="block border-b px-4 py-2 font-mono text-sm text-gray-700"
+              sec:authentication="principal.authorities"
+            ></div>
             <a
               class="block px-4 py-2 text-sm text-gray-700"
               href="#"
@@ -96,14 +107,13 @@
               >Settings</a
             >
 
-            <a
-              class="block px-4 py-2 text-sm text-gray-700"
-              href="#"
-              id="user-menu-item-2"
-              role="menuitem"
-              tabindex="-1"
-              >Sign out</a
+            <div
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
+              <form method="post" th:action="@{/logout}">
+                <button type="submit">Sign out</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
   layout:decorate="~{layout/layout}"
   th:with="activeMenuItem='users'"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   xmlns:th="http://www.thymeleaf.org"
 >
   <head>
@@ -11,6 +12,7 @@
   <body>
     <div layout:fragment="page-content">
       <div
+        sec:authorize="hasRole('ADMIN')"
         th:replace="~{fragments/titles :: title-with-button(title='Users', buttonIcon='user-add', buttonText='Add users', buttonLink=@{/users/create})}"
       ></div>
       <div th:if="${deletedUserName}">
@@ -41,9 +43,10 @@
                       <th
                         th:replace="~{fragments/table :: header(title='Email', hideOnMobile=true)}"
                       ></th>
-
-                      <th th:replace="~{fragments/table :: header('')}"></th>
-                      <th th:replace="~{fragments/table :: header('')}"></th>
+                      <th:block sec:authorize="hasRole('ADMIN')">
+                        <th th:replace="~{fragments/table :: header('')}"></th>
+                        <th th:replace="~{fragments/table :: header('')}"></th>
+                      </th:block>
                     </tr>
                   </thead>
                   <tbody>
@@ -60,20 +63,22 @@
                       <td
                         th:replace="~{fragments/table :: data(contents=${user.email.asString()}, hideOnMobile=true)}"
                       ></td>
-                      <td
-                        th:replace="~{fragments/table :: dataWithLink(linkText='Edit', linkUrl=@{'/users/'+${user.id.asString()}})}"
-                      ></td>
-                      <td
-                        class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium leading-5"
-                        th:x-data="|{name: '${user.userName.fullName}', deleteUrl: '/users/${user.id.asString()}/delete'}|"
-                      >
-                        <a
-                          @click="$dispatch('open-delete-modal', {name, deleteUrl})"
-                          class="text-green-600"
-                          href="javascript:void(0)"
-                          >Delete</a
+                      <th:block sec:authorize="hasRole('ADMIN')">
+                        <td
+                          th:replace="~{fragments/table :: dataWithLink(linkText='Edit', linkUrl=@{'/users/'+${user.id.asString()}})}"
+                        ></td>
+                        <td
+                          class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium leading-5"
+                          th:x-data="|{name: '${user.userName.fullName}', deleteUrl: '/users/${user.id.asString()}/delete'}|"
                         >
-                      </td>
+                          <a
+                            @click="$dispatch('open-delete-modal', {name, deleteUrl})"
+                            class="text-green-600"
+                            href="javascript:void(0)"
+                            >Delete</a
+                          >
+                        </td>
+                      </th:block>
                     </tr>
                   </tbody>
                 </table>
@@ -98,8 +103,8 @@
           class="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0"
         >
           <!--
-                    Background overlay
-                  -->
+                              Background overlay
+                            -->
           <div
             aria-hidden="true"
             class="fixed inset-0 transition-opacity"
@@ -121,8 +126,8 @@
           ></span
           >&#8203;
           <!--
-                    Modal panel
-                  -->
+                              Modal panel
+                            -->
           <div
             aria-labelledby="modal-headline"
             aria-modal="true"
