@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface UserService {
     User createUser(CreateUserParameters parameters);
 
+    User createAdministrator(CreateUserParameters parameters);
+
     User editUser(UserId userId, EditUserParameters parameters);
 
     Page<User> getUsers(Pageable pageable);
