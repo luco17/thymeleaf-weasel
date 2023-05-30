@@ -32,12 +32,23 @@ public class CreateUserFormData {
     @Pattern(regexp = "[0-9.\\-() x/+]+", message = "Must be a valid phone number", groups = ValidationGroupOne.class)
     private String phoneNumber;
 
+    @NotBlank
+    private String password;
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getLastName() {
@@ -82,6 +93,7 @@ public class CreateUserFormData {
 
     public CreateUserParameters toParameters() {
         return new CreateUserParameters(new UserName(firstName, lastName),
+                password,
                 gender,
                 birthday,
                 new com.tamingthymeleaf.application.user.Email(email),

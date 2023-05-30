@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createAdministrator(CreateUserParameters parameters) {
-        LOGGER.debug("Creating administrator{} ({})", parameters.getUserName().getFullName(), parameters.getEmail().asString());
+        LOGGER.debug("Creating administrator {} ({})", parameters.getUserName().getFullName(), parameters.getEmail().asString());
         UserId userId = repository.nextId();
         User user = User.createAdministrator(userId,
                 parameters.getUserName(),
