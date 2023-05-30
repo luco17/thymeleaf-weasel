@@ -30,7 +30,9 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         UserName userName = randomUserName();
-        CreateUserParameters parameters = new CreateUserParameters(userName,
+//      Creating one administrator user. firstname the password here for now
+        CreateUserParameters parameters = new CreateUserParameters(
+                userName,
                 userName.getFirstName(),
                 randomGender(),
                 LocalDate.parse("2000-01-01"),

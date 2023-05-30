@@ -56,7 +56,7 @@ public class User extends AbstractVersionedEntity<UserId> {
                                   LocalDate birthday,
                                   Email email,
                                   PhoneNumber phoneNumber) {
-        return new User(id, Set.of(UserRole.USER), userName, encodedPassword, gender, birthday, email, phoneNumber)
+        return new User(id, Set.of(UserRole.USER), userName, encodedPassword, gender, birthday, email, phoneNumber);
     }
 
     public static User createAdministrator(UserId id,
@@ -66,7 +66,7 @@ public class User extends AbstractVersionedEntity<UserId> {
                                            LocalDate birthday,
                                            Email email,
                                            PhoneNumber phoneNumber) {
-        return new User(id, Set.of(UserRole.USER, UserRole.ADMIN), userName, encodedPassword, gender, birthday, email, phoneNumber)
+        return new User(id, Set.of(UserRole.USER, UserRole.ADMIN), userName, encodedPassword, gender, birthday, email, phoneNumber);
     }
 
     public Set<UserRole> getRoles() {
@@ -76,6 +76,7 @@ public class User extends AbstractVersionedEntity<UserId> {
     public String getPassword() {
         return password;
     }
+
     public UserName getUserName() {
         return userName;
     }
