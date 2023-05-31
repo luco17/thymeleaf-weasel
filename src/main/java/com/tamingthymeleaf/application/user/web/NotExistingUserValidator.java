@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class NotExistingUserValidator implements ConstraintValidator<NotExistingUser, CreateUserFormData> {
+public class NotExistingUserValidator implements ConstraintValidator<NotExistingUser, AbstractUserFormData> {
     private final UserService userService;
 
     @Autowired
@@ -14,7 +14,7 @@ public class NotExistingUserValidator implements ConstraintValidator<NotExisting
         this.userService = userService;
     }
 
-    public boolean isValid(CreateUserFormData formData, ConstraintValidatorContext context) {
+    public boolean isValid(AbstractUserFormData formData, ConstraintValidatorContext context) {
         if (userService.userWithEmailExists(new Email(formData.getEmail()))) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("A user already exists with this email address").addPropertyNode("email").addConstraintViolation();

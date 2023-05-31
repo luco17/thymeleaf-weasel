@@ -2,7 +2,7 @@ package com.tamingthymeleaf.application.user.web;
 
 import com.tamingthymeleaf.application.user.*;
 
-public class EditUserFormData extends CreateUserFormData {
+public class EditUserFormData extends AbstractUserFormData {
     private String id;
     private long version;
 

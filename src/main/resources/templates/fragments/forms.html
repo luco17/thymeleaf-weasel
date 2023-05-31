@@ -3,6 +3,40 @@
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:th="http://www.thymeleaf.org"
 >
+  <!--text input components-->
+  <div
+    th:class="${cssClass}"
+    th:fragment="textinput(labelText, fieldName, cssClass)"
+    th:with="inputType=${inputType ?: 'text'},placeholder=${placeholder ?: ''}"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700"
+      th:for="${fieldName}"
+      th:text="${labelText}"
+    >
+      Form field label e.g. First Name
+    </label>
+    <div class="relative mt-1 rounded-md shadow-sm">
+      <input
+        class="block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+        th:classappend="${#fields.hasErrors('__${fieldName}__')?'border-red-300 focus:border-red-300 focus:ring-red-500':'focus:ring-green-500 focus:border-green-500'}"
+        th:field="*{__${fieldName}__}"
+        th:id="${fieldName}"
+        th:placeholder="${placeholder}"
+        th:type="${inputType}"
+      />
+    </div>
+    <p
+      class="mt-2 text-sm text-red-600"
+      th:errors="*{__${fieldName}__}"
+      th:id="'__${fieldName}__'+ '-error'"
+      th:if="${#fields.hasErrors('__${fieldName}__')}"
+    >
+      Field validation errors
+    </p>
+  </div>
+
+  <!--form error summary-->
   <div
     class="mb-4 rounded-md bg-red-50 p-4"
     th:fragment="fieldErrors"

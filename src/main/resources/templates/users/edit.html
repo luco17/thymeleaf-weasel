@@ -22,12 +22,27 @@
                 th:object="${user}"
         >
             <!--Error summary-->
-            <div th:replace="fragments/forms :: fieldErrors"></div>
+            <div th:replace="~{fragments/forms :: fieldErrors}"></div>
             <!--Input fields-->
             <div
                     class="grid grid-cols-1 gap-x-6 gap-y-8 border-b border-gray-200 pb-10 sm:grid-cols-6"
             >
                 <input th:field="*{version}" th:if="${editMode?.name() == 'UPDATE'}" type="hidden">
+                <!--Role choice-->
+                <div class="sm:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700" for="userRole">User Role</label>
+                    <select class="max-w-lg block focus:ring-green-500 focus:border-green-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                            id="userRole"
+                            th:field="*{userRole}"
+                    >
+                        <option th:each="role : ${possibleRoles}"
+                                th:text="${role.name()}"
+                                th:value="${role.name()}"
+                        >User
+                        </option>
+                    </select>
+                </div>
+                <!--End Role choice-->
                 <!--Gender radio-->
                 <div class="sm:col-span-6">
                     <label class="block text-sm font-medium text-gray-700" th:text="Gender">Gender</label>
@@ -74,6 +89,7 @@
                     >First name validation error message(s).</p>
                 </div>
                 <!--End first name-->
+
                 <!--Start last name-->
                 <div class="sm:col-span-3">
                     <label
@@ -120,6 +136,12 @@
                     >Email validation error message(s).</p>
                 </div>
                 <!--End email-->
+                <!--Start passwords-->
+                <th:block th:if="${editMode?.name() == 'CREATE'}">
+                    <div th:replace="~{fragments/forms :: textinput(labelText='Password', fieldName='password', cssClass='sm:col-span-4')}"></div>
+                    <div th:replace="~{fragments/forms :: textinput(labelText='Verify password', fieldName='passwordRepeated', cssClass='sm:col-span-4')}"></div>
+                </th:block>
+                <!--End passwords-->
                 <!--Start phone-->
                 <div class="sm:col-span-4">
                     <label

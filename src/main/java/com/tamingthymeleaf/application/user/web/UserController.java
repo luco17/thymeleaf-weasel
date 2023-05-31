@@ -4,6 +4,7 @@ import com.tamingthymeleaf.application.infrastructure.web.EditMode;
 import com.tamingthymeleaf.application.user.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,13 +34,16 @@ public class UserController {
     }
 
     @GetMapping("/create")
+    @Secured("ROLE_ADMIN")
     public String createUserForm(Model model) {
         model.addAttribute("user", new CreateUserFormData());
         model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
+        model.addAttribute("possibleRoles", List.of(UserRole.values()));
         return "users/edit";
     }
 
     @PostMapping("/create")
+    @Secured("ROLE_ADMIN")
     public String doCreateUser(@Validated(CreateUserValidationGroupSequence.class) @ModelAttribute("user")
                                CreateUserFormData formData,
                                BindingResult bindingResult,
@@ -47,6 +51,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
             model.addAttribute("editMode", EditMode.CREATE);
+            model.addAttribute("possibleRoles", List.of(UserRole.values()));
             return "users/edit";
         }
         service.createUser(formData.toParameters());
@@ -59,11 +64,13 @@ public class UserController {
         User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
         model.addAttribute("user", EditUserFormData.formUser(user));
         model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
+        model.addAttribute("possibleRoles", List.of(UserRole.values()));
         model.addAttribute("editMode", EditMode.UPDATE);
         return "users/edit";
     }
 
     @PostMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public String doEditUser(@PathVariable("id") UserId userId,
                              @Validated(EditUserValidationGroupSequence.class)
                              @ModelAttribute("user") EditUserFormData formData,
@@ -72,6 +79,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
             model.addAttribute("editMode", EditMode.UPDATE);
+            model.addAttribute("possibleRoles", List.of(UserRole.values()));
             return "users/edit";
         }
 
@@ -86,8 +94,10 @@ public class UserController {
     }
 
     @PostMapping("/{id}/delete")
+    @Secured("ROLE_ADMIN")
     public String doDeleteUser(@PathVariable("id") UserId userId, RedirectAttributes redirectAttributes) {
         User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
+
         service.deleteUser(userId);
 
         redirectAttributes.addFlashAttribute("deletedUserName", user.getUserName().getFullName());

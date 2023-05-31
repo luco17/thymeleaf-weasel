@@ -57,14 +57,14 @@
           </div>
 
           <!--
-                                                                    Dropdown menu, show/hide based on menu state.
-                                                                    Entering: "transition ease-out duration-100"
-                                                                      From: "transform opacity-0 scale-95"
-                                                                      To: "transform opacity-100 scale-100"
-                                                                    Leaving: "transition ease-in duration-75"
-                                                                      From: "transform opacity-100 scale-100"
-                                                                      To: "transform opacity-0 scale-95"
-                                                                  -->
+                                                                                Dropdown menu, show/hide based on menu state.
+                                                                                Entering: "transition ease-out duration-100"
+                                                                                  From: "transform opacity-0 scale-95"
+                                                                                  To: "transform opacity-100 scale-100"
+                                                                                Leaving: "transition ease-in duration-75"
+                                                                                  From: "transform opacity-100 scale-100"
+                                                                                  To: "transform opacity-0 scale-95"
+                                                                              -->
           <div
             aria-labelledby="user-menu-button"
             aria-orientation="vertical"
@@ -83,11 +83,11 @@
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <div
               class="block border-b px-4 py-2 font-mono text-sm text-gray-700"
-              sec:authentication="name"
+              sec:authentication="principal.displayName"
             ></div>
             <div
-              class="block border-b px-4 py-2 font-mono text-sm text-gray-700"
-              sec:authentication="principal.authorities"
+              class="block truncate border-b px-4 py-2 font-mono text-xs text-gray-700"
+              sec:authentication="principal.username"
             ></div>
             <a
               class="block px-4 py-2 text-sm text-gray-700"
