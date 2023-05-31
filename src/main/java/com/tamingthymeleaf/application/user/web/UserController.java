@@ -39,6 +39,7 @@ public class UserController {
         model.addAttribute("user", new CreateUserFormData());
         model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
         model.addAttribute("possibleRoles", List.of(UserRole.values()));
+        model.addAttribute("editMode", EditMode.CREATE);
         return "users/edit";
     }
 
@@ -75,15 +76,19 @@ public class UserController {
                              @Validated(EditUserValidationGroupSequence.class)
                              @ModelAttribute("user") EditUserFormData formData,
                              BindingResult bindingResult,
-                             Model model) {
+                             Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
             model.addAttribute("editMode", EditMode.UPDATE);
             model.addAttribute("possibleRoles", List.of(UserRole.values()));
             return "users/edit";
         }
+        User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
 
         service.editUser(userId, formData.toParameters());
+
+        redirectAttributes.addFlashAttribute("editedUser", user.getUserName().getFullName());
+
 
         return "redirect:/users";
     }

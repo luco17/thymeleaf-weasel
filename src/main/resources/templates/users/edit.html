@@ -67,51 +67,10 @@
                 </div>
                 <!--End gender radio -->
                 <!--Start first name-->
-                <div class="sm:col-span-3">
-                    <label
-                            class="block text-sm font-medium leading-6 text-gray-900"
-                            for="firstName"
-                    >First name</label
-                    >
-                    <div class="mt-2">
-                        <input
-                                autocomplete="given-name"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-                                id="firstName"
-                                th:classappend="${#fields.hasErrors('firstName')? 'ring-red-300 focus:ring-red-300' : 'focus:ring-green-600 ring-gray-300'}"
-                                th:field="*{firstName}"
-                                type="text"
-                        />
-                    </div>
-                    <p class="mt-2 text-sm text-red-600"
-                       id="first-name-error"
-                       th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"
-                    >First name validation error message(s).</p>
-                </div>
+                <div th:replace="~{fragments/forms :: textinput(labelText='First name', fieldName='firstName', cssClass='sm:col-span-3')}"></div>
                 <!--End first name-->
-
                 <!--Start last name-->
-                <div class="sm:col-span-3">
-                    <label
-                            class="block text-sm font-medium leading-6 text-gray-900"
-                            for="lastName"
-                    >Last name</label
-                    >
-                    <div class="mt-2">
-                        <input
-                                autocomplete="family-name"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-                                id="lastName"
-                                th:classappend="${#fields.hasErrors('lastName')? 'ring-red-300 focus:ring-red-300' : 'focus:ring-green-600 ring-gray-300'}"
-                                th:field="*{lastName}"
-                                type="text"
-                        />
-                    </div>
-                    <p class="mt-2 text-sm text-red-600"
-                       id="last-name-error"
-                       th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"
-                    >Last name validation error message(s).</p>
-                </div>
+                <div th:replace="~{fragments/forms :: textinput(labelText='Last name', fieldName='lastName', cssClass='sm:col-span-3')}"></div>
                 <!--End last name-->
                 <!--Start email-->
                 <div class="sm:col-span-4">
@@ -138,8 +97,8 @@
                 <!--End email-->
                 <!--Start passwords-->
                 <th:block th:if="${editMode?.name() == 'CREATE'}">
-                    <div th:replace="~{fragments/forms :: textinput(labelText='Password', fieldName='password', cssClass='sm:col-span-4')}"></div>
-                    <div th:replace="~{fragments/forms :: textinput(labelText='Verify password', fieldName='passwordRepeated', cssClass='sm:col-span-4')}"></div>
+                    <div th:replace="~{fragments/forms :: textinput(labelText='Password', fieldName='password', cssClass='sm:col-span-4', inputType='password')}"></div>
+                    <div th:replace="~{fragments/forms :: textinput(labelText='Verify password', fieldName='passwordRepeated', cssClass='sm:col-span-4', inputType='password')}"></div>
                 </th:block>
                 <!--End passwords-->
                 <!--Start phone-->

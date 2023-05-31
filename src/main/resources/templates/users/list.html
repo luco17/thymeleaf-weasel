@@ -17,7 +17,12 @@
       ></div>
       <div th:if="${deletedUserName}">
         <div
-          th:replace="fragments/alerts :: success(message='User ' + ${deletedUserName} + ' was deleted successfully')"
+          th:replace="~{fragments/alerts :: success(message='User ' + ${deletedUserName} + ' was deleted successfully')}"
+        ></div>
+      </div>
+      <div th:if="${editedUser}">
+        <div
+          th:replace="~{fragments/alerts :: success(message='User ' + ${editedUser} + ' was edited successfully')}"
         ></div>
       </div>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
@@ -103,8 +108,8 @@
           class="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0"
         >
           <!--
-                              Background overlay
-                            -->
+                                    Background overlay
+                                  -->
           <div
             aria-hidden="true"
             class="fixed inset-0 transition-opacity"
@@ -126,8 +131,8 @@
           ></span
           >&#8203;
           <!--
-                              Modal panel
-                            -->
+                                    Modal panel
+                                  -->
           <div
             aria-labelledby="modal-headline"
             aria-modal="true"
@@ -183,6 +188,12 @@
               method="post"
               x-bind:action="getDeleteUrl()"
             >
+              <!--hidden csrf-->
+              <input
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"
+                type="hidden"
+              />
               <!--.-->
               <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <span

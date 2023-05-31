@@ -13,13 +13,17 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     @NotNull
     private UserName userName;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
     @NotNull
     private LocalDate birthday;
+
     @NotNull
     private Email email;
+
     @NotNull
     private PhoneNumber phoneNumber;
 
