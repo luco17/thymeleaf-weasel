@@ -30,12 +30,14 @@ public class CreateUserFormData extends AbstractUserFormData {
     }
 
     public CreateUserParameters toParameters() {
-        return new CreateUserParameters(new UserName(getFirstName(), getLastName()),
+        return new CreateUserParameters(
+                new UserName(getFirstName(), getLastName()),
                 password,
                 getGender(),
                 getBirthday(),
                 new com.tamingthymeleaf.application.user.Email(getEmail()),
                 new PhoneNumber(getPhoneNumber()),
-                getUserRole());
+                getUserRole()
+        );
     }
 }

@@ -16,16 +16,21 @@ public class EditUserFormData extends AbstractUserFormData {
         result.setBirthday(user.getBirthday());
         result.setEmail(user.getEmail().asString());
         result.setPhoneNumber(user.getPhoneNumber().asString());
+        result.setUserRole(user.isAdmin() ? UserRole.ADMIN : UserRole.USER);
 
         return result;
     }
 
     public EditUserParameters toParameters() {
-        return new EditUserParameters(version, new UserName(getFirstName(), getLastName()),
+        return new EditUserParameters(
+                version,
+                new UserName(getFirstName(), getLastName()),
                 getGender(),
                 getBirthday(),
                 new Email(getEmail()),
-                new PhoneNumber(getPhoneNumber()));
+                new PhoneNumber(getPhoneNumber()),
+                getUserRole()
+        );
     }
 
     public String getId() {
