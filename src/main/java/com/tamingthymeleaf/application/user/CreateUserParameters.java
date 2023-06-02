@@ -10,14 +10,16 @@ public class CreateUserParameters {
     private final LocalDate birthday;
     private final Email email;
     private final PhoneNumber phoneNumber;
+    private final UserRole userRole;
 
-    public CreateUserParameters(UserName userName, String password, Gender gender, LocalDate birthday, Email email, PhoneNumber phoneNumber) {
+    public CreateUserParameters(UserName userName, String password, Gender gender, LocalDate birthday, Email email, PhoneNumber phoneNumber, UserRole userRole) {
         this.userName = userName;
         this.password = password;
         this.gender = gender;
         this.birthday = birthday;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.userRole = userRole;
     }
 
     public UserName getUserName() {
@@ -43,5 +45,9 @@ public class CreateUserParameters {
 
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
     }
 }

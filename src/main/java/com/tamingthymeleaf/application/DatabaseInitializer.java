@@ -37,7 +37,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 randomGender(),
                 LocalDate.parse("2000-01-01"),
                 generateEmailForUserName(userName),
-                randomPhoneNumber());
+                randomPhoneNumber(),
+                UserRole.ADMIN);
 
         userService.createAdministrator(parameters);
     }
@@ -48,7 +49,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         LocalDate birthday = LocalDate.ofInstant(faker.date().birthday(10, 40).toInstant(), ZoneId.systemDefault());
         Email email = generateEmailForUserName(userName);
         PhoneNumber phoneNumber = randomPhoneNumber();
-        return new CreateUserParameters(userName, userName.getFirstName(), gender, birthday, email, phoneNumber);
+        UserRole userRole = UserRole.USER;
+        return new CreateUserParameters(userName, userName.getFirstName(), gender, birthday, email, phoneNumber, userRole);
 
     }
 

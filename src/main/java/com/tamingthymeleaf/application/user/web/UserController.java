@@ -55,8 +55,13 @@ public class UserController {
             model.addAttribute("possibleRoles", List.of(UserRole.values()));
             return "users/edit";
         }
-        service.createUser(formData.toParameters());
 
+        if (formData.getUserRole() == UserRole.ADMIN) {
+            service.createAdministrator(formData.toParameters());
+        } else {
+            service.createUser(formData.toParameters());
+        }
+        
         return "redirect:/users";
     }
 
