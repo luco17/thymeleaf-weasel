@@ -46,12 +46,16 @@ class UserRepositoryTest {
     @Test
     void testSaveUser() {
         UserId id = repository.nextId();
-        repository.save(new User(id,
-                new UserName("Tommy", "Walton"),
-                Gender.MALE,
-                LocalDate.of(2001, Month.FEBRUARY, 17),
-                new Email("tommy.walton@gmail.com"),
-                new PhoneNumber("202 555 0192")));
+        repository.save(User.createUser(
+                        id,
+                        new UserName("Tommy", "Walton"),
+                        "encoded-secret-pwd",
+                        Gender.MALE,
+                        LocalDate.of(2001, Month.FEBRUARY, 17),
+                        new Email("tommy.walton@gmail.com"),
+                        new PhoneNumber("202 555 0192")
+                )
+        );
 
         entityManager.flush();
 
@@ -84,8 +88,10 @@ class UserRepositoryTest {
 
     private void saveUsers() {
         for (int i = 0; i < 8; i++) {
-            repository.save(new User(repository.nextId(),
+            repository.save(User.createUser(
+                    repository.nextId(),
                     new UserName(String.format("Tommy%d", i), i % 2 == 0 ? "Walton" : "Holt"),
+                    "encoded-secret-pwd",
                     Gender.MALE,
                     LocalDate.of(2001, Month.FEBRUARY, 17),
                     new Email("tommy.walton" + i + "@gmail.com"),
