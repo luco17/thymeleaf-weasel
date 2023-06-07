@@ -10,9 +10,9 @@
 </head>
 <body>
 <div layout:fragment="page-content">
-    <h2 class="px-4 text-2xl font-semibold text-gray-900"
+    <h1 class="px-4 text-2xl font-semibold text-gray-900"
         th:text="${editMode?.name() == 'UPDATE'} ? 'Edit user' : 'Create user'"
-    >Create user</h2>
+    >Create user</h1>
     <div class="mt-4 sm:px-4">
         <form
                 class="bg-white px-4 py-6 shadow sm:rounded-lg"
@@ -161,6 +161,7 @@
                 </a>
                 <button
                         class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        id="submit-button"
                         th:text="${editMode?.name() == 'UPDATE'} ? 'Save changes' : 'Create'"
                         type="submit"
                 >
