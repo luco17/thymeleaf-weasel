@@ -13,7 +13,7 @@
     <div layout:fragment="page-content">
       <div
         sec:authorize="hasRole('ADMIN')"
-        th:replace="~{fragments/titles :: title-with-button(title='Users', buttonIcon='user-add', buttonText='Add users', buttonLink=@{/users/create}, 'add-user-button')}"
+        th:replace="~{fragments/titles :: title-with-button(title='Users', buttonIcon='user-add', buttonText='Add users', buttonLink=@{/users/create}, buttonId='add-user-button')}"
       ></div>
       <div th:if="${deletedUserName}">
         <div
@@ -108,8 +108,8 @@
           class="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0"
         >
           <!--
-                                        Background overlay
-                                      -->
+                                          Background overlay
+                                        -->
           <div
             aria-hidden="true"
             class="fixed inset-0 transition-opacity"
@@ -131,8 +131,8 @@
           ></span
           >&#8203;
           <!--
-                                        Modal panel
-                                      -->
+                                          Modal panel
+                                        -->
           <div
             aria-labelledby="modal-headline"
             aria-modal="true"

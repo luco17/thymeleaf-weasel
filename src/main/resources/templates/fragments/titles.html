@@ -6,7 +6,7 @@
 >
   <div
     class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8"
-    th:fragment="title-with-button(title, buttonIcon, buttonText, buttonLink)"
+    th:fragment="title-with-button(title, buttonIcon, buttonText, buttonLink, buttonId)"
   >
     <div class="flex justify-between">
       <h1 class="text-2xl font-semibold text-gray-900" th:text="${title}">
@@ -15,6 +15,7 @@
       <a
         class="inline-flex space-x-2 rounded-md bg-green-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
         th:href="${buttonLink}"
+        th:id="${buttonId}"
       >
         <svg th:replace="~{__${buttonIcon}__}"></svg>
         [[${buttonText}]]

@@ -86,6 +86,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public long countUsers() {
+        return repository.count();
+    }
+
+    @Override
     public void deleteAllUsers() {
         repository.deleteAll();
     }
