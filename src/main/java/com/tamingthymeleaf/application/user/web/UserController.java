@@ -24,6 +24,17 @@ public class UserController {
         this.service = service;
     }
 
+    @ModelAttribute("genders")
+    public List<Gender> genders() {
+        return List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER);
+    }
+
+    @ModelAttribute("possibleRoles")
+    public List<UserRole> possibleRoles() {
+        return List.of(UserRole.values());
+    }
+
+
     @GetMapping
     public String index(Model model, @SortDefault.SortDefaults({
             @SortDefault("userName.lastName"),
@@ -37,8 +48,6 @@ public class UserController {
     @Secured("ROLE_ADMIN")
     public String createUserForm(Model model) {
         model.addAttribute("user", new CreateUserFormData());
-        model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
-        model.addAttribute("possibleRoles", List.of(UserRole.values()));
         model.addAttribute("editMode", EditMode.CREATE);
         return "users/edit";
     }
@@ -50,9 +59,7 @@ public class UserController {
                                BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
             model.addAttribute("editMode", EditMode.CREATE);
-            model.addAttribute("possibleRoles", List.of(UserRole.values()));
             return "users/edit";
         }
 
@@ -61,7 +68,7 @@ public class UserController {
         } else {
             service.createUser(formData.toParameters());
         }
-        
+
         return "redirect:/users";
     }
 
@@ -69,8 +76,6 @@ public class UserController {
     public String editUserForm(@PathVariable("id") UserId userId, Model model) {
         User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
         model.addAttribute("user", EditUserFormData.formUser(user));
-        model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
-        model.addAttribute("possibleRoles", List.of(UserRole.values()));
         model.addAttribute("editMode", EditMode.UPDATE);
         return "users/edit";
     }
@@ -83,9 +88,7 @@ public class UserController {
                              BindingResult bindingResult,
                              Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders", List.of(Gender.MALE, Gender.FEMALE, Gender.OTHER));
             model.addAttribute("editMode", EditMode.UPDATE);
-            model.addAttribute("possibleRoles", List.of(UserRole.values()));
             return "users/edit";
         }
         User user = service.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
