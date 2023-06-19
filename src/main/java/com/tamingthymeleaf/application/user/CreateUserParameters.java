@@ -1,5 +1,7 @@
 package com.tamingthymeleaf.application.user;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Nullable;
 import java.time.LocalDate;
 
@@ -11,6 +13,7 @@ public class CreateUserParameters {
     private final Email email;
     private final PhoneNumber phoneNumber;
     private final UserRole userRole;
+    private MultipartFile avatar;
 
     public CreateUserParameters(UserName userName, String password, Gender gender, LocalDate birthday, Email email, PhoneNumber phoneNumber, UserRole userRole) {
         this.userName = userName;
@@ -49,5 +52,14 @@ public class CreateUserParameters {
 
     public UserRole getUserRole() {
         return userRole;
+    }
+
+    @Nullable
+    public MultipartFile getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(MultipartFile avatar) {
+        this.avatar = avatar;
     }
 }

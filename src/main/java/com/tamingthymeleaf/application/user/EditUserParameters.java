@@ -1,5 +1,8 @@
 package com.tamingthymeleaf.application.user;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class EditUserParameters extends CreateUserParameters {
@@ -21,5 +24,14 @@ public class EditUserParameters extends CreateUserParameters {
         user.setEmail(getEmail());
         user.setPhoneNumber(getPhoneNumber());
         user.setRoles(getUserRole());
+
+        MultipartFile avatar = getAvatar();
+        if (avatar != null) {
+            try {
+                user.setAvatar(avatar.getBytes());
+            } catch (IOException e) {
+                throw new UserServiceException(e);
+            }
+        }
     }
 }

@@ -30,7 +30,7 @@ public class CreateUserFormData extends AbstractUserFormData {
     }
 
     public CreateUserParameters toParameters() {
-        return new CreateUserParameters(
+        CreateUserParameters parameters = new CreateUserParameters(
                 new UserName(getFirstName(), getLastName()),
                 password,
                 getGender(),
@@ -39,5 +39,10 @@ public class CreateUserFormData extends AbstractUserFormData {
                 new PhoneNumber(getPhoneNumber()),
                 getUserRole()
         );
+
+        if (getAvatarFile() != null && !getAvatarFile().isEmpty()) {
+            toParameters().setAvatar(getAvatarFile());
+        }
+        return parameters;
     }
 }

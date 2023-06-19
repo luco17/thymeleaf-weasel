@@ -2,9 +2,12 @@ package com.tamingthymeleaf.application.user.web;
 
 import com.tamingthymeleaf.application.user.*;
 
+import java.util.Base64;
+
 public class EditUserFormData extends AbstractUserFormData {
     private String id;
     private long version;
+    private String avatarBase64Encoded;
 
     public static EditUserFormData formUser(User user) {
         EditUserFormData result = new EditUserFormData();
@@ -18,11 +21,16 @@ public class EditUserFormData extends AbstractUserFormData {
         result.setPhoneNumber(user.getPhoneNumber().asString());
         result.setUserRole(user.isAdmin() ? UserRole.ADMIN : UserRole.USER);
 
+        if (user.getAvatar() != null) {
+            String encoded = Base64.getEncoder().encodeToString(user.getAvatar());
+            result.setAvatarBase64Encoded(encoded);
+        }
+
         return result;
     }
 
     public EditUserParameters toParameters() {
-        return new EditUserParameters(
+        EditUserParameters parameters = new EditUserParameters(
                 version,
                 new UserName(getFirstName(), getLastName()),
                 getGender(),
@@ -31,6 +39,11 @@ public class EditUserFormData extends AbstractUserFormData {
                 new PhoneNumber(getPhoneNumber()),
                 getUserRole()
         );
+
+        if (getAvatarFile() != null && !getAvatarFile().isEmpty()) {
+            parameters.setAvatar(getAvatarFile());
+        }
+        return parameters;
     }
 
     public String getId() {
@@ -47,5 +60,13 @@ public class EditUserFormData extends AbstractUserFormData {
 
     public void setVersion(long version) {
         this.version = version;
+    }
+
+    public String getAvatarBase64Encoded() {
+        return avatarBase64Encoded;
+    }
+
+    public void setAvatarBase64Encoded(String avatarBase64Encoded) {
+        this.avatarBase64Encoded = avatarBase64Encoded;
     }
 }

@@ -36,6 +36,8 @@ public class User extends AbstractVersionedEntity<UserId> {
     @NotNull
     private String password;
 
+    private byte[] avatar;
+
     /**
      * Default constructor for JPA
      */
@@ -131,6 +133,14 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     public void setPhoneNumber(PhoneNumber phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     public boolean isAdmin() {
