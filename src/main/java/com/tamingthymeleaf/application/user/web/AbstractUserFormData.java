@@ -6,6 +6,7 @@ import com.tamingthymeleaf.application.user.Gender;
 import com.tamingthymeleaf.application.user.UserRole;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -36,6 +37,16 @@ public class AbstractUserFormData {
     @NotBlank(message = "Please enter a valid phone number")
     @Pattern(regexp = "[0-9.\\-() x/+]+", message = "Must be a valid phone number", groups = ValidationGroupOne.class)
     private String phoneNumber;
+
+    private MultipartFile avatarFile;
+
+    public MultipartFile getAvatarFile() {
+        return avatarFile;
+    }
+
+    public void setAvatarFile(MultipartFile avatarFile) {
+        this.avatarFile = avatarFile;
+    }
 
     public UserRole getUserRole() {
         return userRole;

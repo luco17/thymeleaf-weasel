@@ -41,3 +41,8 @@ node_modules
 
 ### application properties ###
 application-local.properties
+
+### Cypress guff ###
+src/test/e2e/cypress/reports
+src/test/e2e/cypress/videos
+src/test/e2e/cypress/screenshots

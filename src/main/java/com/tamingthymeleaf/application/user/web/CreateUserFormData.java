@@ -13,7 +13,6 @@ public class CreateUserFormData extends AbstractUserFormData {
     @NotBlank(message = "Please verify password")
     private String passwordRepeated;
 
-
     public String getPassword() {
         return password;
     }
@@ -31,11 +30,19 @@ public class CreateUserFormData extends AbstractUserFormData {
     }
 
     public CreateUserParameters toParameters() {
-        return new CreateUserParameters(new UserName(getFirstName(), getLastName()),
+        CreateUserParameters parameters = new CreateUserParameters(
+                new UserName(getFirstName(), getLastName()),
                 password,
                 getGender(),
                 getBirthday(),
                 new com.tamingthymeleaf.application.user.Email(getEmail()),
-                new PhoneNumber(getPhoneNumber()));
+                new PhoneNumber(getPhoneNumber()),
+                getUserRole()
+        );
+
+        if (getAvatarFile() != null && !getAvatarFile().isEmpty()) {
+            toParameters().setAvatar(getAvatarFile());
+        }
+        return parameters;
     }
 }

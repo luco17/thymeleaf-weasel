@@ -1,5 +1,6 @@
 package com.tamingthymeleaf.application.user;
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +20,11 @@ public interface UserService {
     Optional<User> getUser(UserId userId);
 
     void deleteUser(UserId userId);
+
+    void deleteAllUsers();
+
+    long countUsers();
+
+    ImmutableSortedSet<UserNameAndId> getAllUsersNameAndId();
 }
+

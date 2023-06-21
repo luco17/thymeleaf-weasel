@@ -10,12 +10,13 @@
 </head>
 <body>
 <div layout:fragment="page-content">
-    <h2 class="px-4 text-2xl font-semibold text-gray-900"
+    <h1 class="px-4 text-2xl font-semibold text-gray-900"
         th:text="${editMode?.name() == 'UPDATE'} ? 'Edit user' : 'Create user'"
-    >Create user</h2>
+    >Create user</h1>
     <div class="mt-4 sm:px-4">
         <form
                 class="bg-white px-4 py-6 shadow sm:rounded-lg"
+                enctype="multipart/form-data"
                 id="user-form"
                 method="post"
                 th:action="${editMode?.name() == 'UPDATE'} ? @{/users/{id}(id=${user.id})} : @{/users/create}"
@@ -28,6 +29,26 @@
                     class="grid grid-cols-1 gap-x-6 gap-y-8 border-b border-gray-200 pb-10 sm:grid-cols-6"
             >
                 <input th:field="*{version}" th:if="${editMode?.name() == 'UPDATE'}" type="hidden">
+                <!--Avatar-->
+                <div class="sm:col-span-6 flex flex-col items-center sm:flex-row sm:justify-start x-data">
+                    <img class="inline-block object-cover w-32 h-32 rounded-full overflow-hidden bg-gray-100 cursor-pointer"
+                         id="avatarImage"
+                         th:classappend="${editMode?.name() == 'UPDATE' && user.avatarBase64Encoded != null}?'':'p-6'"
+                         th:src="${editMode?.name() == 'UPDATE' && user.avatarBase64Encoded != null}?${'data:image/jpeg;base64,' + user.avatarBase64Encoded}:'/svg/user.svg'"
+                         x-on:click="$refs.avatarFile.click()">
+                    <input class="hidden" id="avatarFile" name="avatarFile" type="file" x-ref="avatarFile">
+                    <button
+                            class="ml-4 py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                            id="selectAvatarButton"
+                            type="button"
+                            x-on:click="$refs.avatarFile.click()">
+                        Add picture
+                    </button> <!--.-->
+                </div>
+
+                <!--End Avatar-->
+
+
                 <!--Role choice-->
                 <div class="sm:col-span-2">
                     <label class="block text-sm font-medium text-gray-700" for="userRole">User Role</label>
@@ -161,6 +182,7 @@
                 </a>
                 <button
                         class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        id="submit-button"
                         th:text="${editMode?.name() == 'UPDATE'} ? 'Save changes' : 'Create'"
                         type="submit"
                 >
@@ -170,5 +192,21 @@
         </form>
     </div>
 </div>
+<th:block layout:fragment="page-scripts">
+    <script>
+        document.querySelector('#avatarFile').addEventListener('change', evt => { // <.>
+            previewImage();
+        });
+
+        function previewImage() {
+            var uploader = document.querySelector('#avatarFile');
+            if (uploader.files && uploader.files[0]) {
+                document.querySelector('#avatarImage').src = window.URL.createObjectURL(uploader.files[0]); // <.>
+                document.querySelector('#avatarImage').classList.remove('p-6'); //<.>
+            }
+        }
+
+    </script>
+</th:block>
 </body>
 </html>

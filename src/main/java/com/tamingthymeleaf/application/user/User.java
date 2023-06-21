@@ -27,7 +27,7 @@ public class User extends AbstractVersionedEntity<UserId> {
     @NotNull
     private PhoneNumber phoneNumber;
 
-    @ElementCollection(targetClass = UserRole.class)
+    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles")
     @Column(name = "role")
@@ -35,6 +35,8 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     @NotNull
     private String password;
+
+    private byte[] avatar;
 
     /**
      * Default constructor for JPA
@@ -75,6 +77,18 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     public Set<UserRole> getRoles() {
         return roles;
+    }
+
+    public void setRoles(UserRole userRole) {
+        if (this.roles == null) {
+            return;
+        }
+
+        if (userRole == UserRole.ADMIN) {
+            this.roles = Set.of(UserRole.USER, UserRole.ADMIN);
+        } else {
+            this.roles = Set.of(UserRole.USER);
+        }
     }
 
     public String getPassword() {
@@ -119,5 +133,20 @@ public class User extends AbstractVersionedEntity<UserId> {
 
     public void setPhoneNumber(PhoneNumber phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public boolean isAdmin() {
+        if (this.roles == null || this.roles.isEmpty()) {
+            return false;
+        }
+        return this.getRoles().contains(UserRole.ADMIN);
     }
 }

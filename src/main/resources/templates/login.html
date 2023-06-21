@@ -96,6 +96,7 @@
               <span class="block w-full rounded-md shadow-sm">
                 <button
                   class="flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                  id="submit-button"
                   type="submit"
                 >
                   Sign in
@@ -103,6 +104,9 @@
               </span>
             </div>
           </form>
+          <div class="mt-4 text-center text-xs text-gray-500">
+            <span th:text="${version}"></span>
+          </div>
         </div>
       </div>
     </div>
