@@ -1,5 +1,6 @@
 package com.tamingthymeleaf.application.user;
 
+import com.google.common.collect.ImmutableSortedSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -97,6 +101,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAllUsers() {
         repository.deleteAll();
+    }
+
+    @Override
+    public ImmutableSortedSet<UserNameAndId> getAllUsersNameAndId() {
+        Iterable<User> users = repository.findAll();
+        return ImmutableSortedSet.copyOf(
+                Comparator.comparing(userNameAndId ->
+                        userNameAndId.getUserName().getFullName()),
+                StreamSupport.stream(users.spliterator(), false)
+                        .map(user -> new UserNameAndId(user.getId(), user.getUserName()))
+                        .sorted(Comparator.comparing(userNameAndId ->
+                                userNameAndId.getUserName().getFullName()))
+                        .collect(Collectors.toList()));
     }
 
     private void storeAvatarIfPresent(CreateUserParameters parameters, User user) {
