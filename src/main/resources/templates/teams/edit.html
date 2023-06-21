@@ -34,13 +34,63 @@
                   class="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6"
                 >
                   <input
-                    th:fild="*{version}"
+                    th:field="*{version}"
                     th:if="${editMode?.name() == 'UPDATE'}"
                     type="hidden"
                   />
+                  <!--                  Team name-->
                   <div
-                    th:replace="~{fragments/forms :: textinput(labelText='Team name', fieldName='teamName', cssClass='sm:col-span-3')}"
+                    th:replace="~{fragments/forms :: textinput(labelText='Team name', fieldName='name', cssClass='sm:col-span-3')}"
                   ></div>
+                  <!--                  End Team name-->
+                  <div class="sm:col-span-3"></div>
+                  <!-- Coach selection -->
+                  <div class="sm:col-span-3">
+                    <label
+                      class="block text-sm font-medium text-gray-700"
+                      th:for="coachId"
+                      th:text="'Team coach'"
+                    ></label>
+                    <div class="mt-1 rounded-md shadow-sm">
+                      <select
+                        class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:max-w-xs sm:text-sm"
+                        name="coachId"
+                        th:field="*{coachId}"
+                        th:id="coachId"
+                      >
+                        >
+                        <option
+                          th:each="user : ${users}"
+                          th:text="${user.userName.fullName}"
+                          th:value="${user.id.asString()}"
+                        ></option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- End Coach selection -->
+                </div>
+              </div>
+              <div class="mt-8 border-t border-gray-200 pt-5">
+                <div class="flex justify-end">
+                  <span class="inline-flex rounded-md shadow-sm">
+                    <a
+                      class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                      th:href="@{/teams}"
+                      type="button"
+                    >
+                      Cancel
+                    </a>
+                  </span>
+                  <span class="ml-3 inline-flex rounded-md shadow-sm">
+                    <button
+                      class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                      id="submit-button"
+                      th:text="${editMode?.name() == 'UPDATE'} ? 'Save changes': 'Create team'"
+                      type="submit"
+                    >
+                      Save
+                    </button>
+                  </span>
                 </div>
               </div>
             </form>
