@@ -67,14 +67,21 @@ public class TeamController {
 
     @PostMapping("/{id}")
     @Secured("ROLE_ADMIN")
-    public String doEditTeam(@PathVariable("id") TeamId teamId, @Valid @ModelAttribute("team") EditTeamFormData formData, BindingResult bindingResult, Model model) {
+    public String doEditTeam(@PathVariable("id") TeamId teamId,
+                             @Valid @ModelAttribute("team") EditTeamFormData formData,
+                             BindingResult bindingResult,
+                             Model model,
+                             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("editMode", EditMode.UPDATE);
             model.addAttribute("users", userService.getAllUsersNameAndId());
             return "teams/edit";
         }
+        Team team = teamService.getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
 
         teamService.editTeam(teamId, formData.getVersion(), formData.getName(), formData.getCoachId());
+
+        redirectAttributes.addFlashAttribute("editedTeam", team.getName());
 
         return "redirect:/teams";
     }
