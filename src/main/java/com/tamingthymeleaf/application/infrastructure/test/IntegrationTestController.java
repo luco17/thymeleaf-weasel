@@ -1,5 +1,6 @@
 package com.tamingthymeleaf.application.infrastructure.test;
 
+import com.tamingthymeleaf.application.team.TeamService;
 import com.tamingthymeleaf.application.user.*;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,11 @@ import java.time.LocalDate;
 @Profile("integration-test")
 public class IntegrationTestController {
     private final UserService userService;
+    private final TeamService teamService;
 
-    public IntegrationTestController(UserService userService) {
+    public IntegrationTestController(UserService userService, TeamService teamService) {
         this.userService = userService;
+        this.teamService = teamService;
     }
 
     @PostMapping("/reset-db")
@@ -24,6 +27,12 @@ public class IntegrationTestController {
 
         addUser();
         addAdministrator();
+    }
+
+    @PostMapping("/add-test-team")
+    public void addTestTeam() {
+        UserNameAndId userNameAndId = userService.getAllUsersNameAndId().first();
+        teamService.createTeam("Test Team", userNameAndId.getId());
     }
 
     private void addUser() {
