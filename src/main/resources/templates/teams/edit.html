@@ -68,6 +68,32 @@
                     </div>
                   </div>
                   <!-- End Coach selection -->
+                  <div class="sm:col-span-3"></div>
+                  <!-- Start player add -->
+                  <h3>Players</h3>
+                  <div class="col-span-6 ml-4">
+                    <div
+                      id="teamplayer-forms"
+                      th:data-teamplayers-count="${team.players.length}"
+                    >
+                      <th:block th:each="player, iter : ${team.players}">
+                        <div
+                          th:replace="~{teams/edit-teamplayer-fragment :: teamplayer-form(index=${iter.index}, teamObjectName='team')}"
+                        ></div>
+                      </th:block>
+                    </div>
+                    <div class="mt-4">
+                      <a
+                        @click="addExtraTeamPlayerForm()"
+                        class="focus:shadow-outline-blue rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500 focus:border-blue-300 focus:outline-none active:bg-gray-50 active:text-gray-800"
+                        href="#"
+                        id="add-extra-teamplayer-form-button"
+                        th:text="'Add player'"
+                      ></a>
+                      <!--.-->
+                    </div>
+                  </div>
+                  <!-- End player add -->
                 </div>
               </div>
               <div class="mt-8 border-t border-gray-200 pt-5">

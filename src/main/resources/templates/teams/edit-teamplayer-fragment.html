@@ -1,0 +1,59 @@
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <div
+    class="col-span-6 flex items-stretch"
+    th:fragment="teamplayer-form"
+    th:id="${'teamplayer-for-section-' + __${index}__}"
+    th:object="${__${teamObjectName}__}"
+  >
+    <div class="row-gap-6 col-gap-4 grid grid-cols-1 sm:grid-cols-6">
+      <div class="sm:col-span-2">
+        <div class="mt-1 rounded-md shadow-sm">
+          <select
+            class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:max-w-xs sm:text-sm"
+            th:field="*{players[__${index}__].playerId}"
+          >
+            <option
+              th:each="user : ${users}"
+              th:text="${user.userName.fullName}"
+              th:value="${user.id.asString()}"
+            ></option>
+          </select>
+        </div>
+      </div>
+      <div class="sm:col-span-2">
+        <div class="mt-1 rounded-md shadow-sm">
+          <select
+            class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:max-w-xs sm:text-sm"
+            th:field="*{players[__${index}__].position}"
+          >
+            <option
+              th:each="position: ${positions}"
+              th:text="${position}"
+              th:value="${position}"
+            ></option>
+          </select>
+        </div>
+      </div>
+      <!-- delete -->
+      <div
+        class="ml-1 flex items-center text-green-600 hover:text-green-900 sm:col-span-2"
+      >
+        <div class="h-6 w-6">
+          <svg th:replace="~{trash}"></svg>
+        </div>
+        <a
+          @click="removeTeamPlayerForm($el.dataset.formindex)"
+          class="ml-1"
+          href="#"
+          th:attr="data-formindex=__${index}__"
+          th:text="'Remove player'"
+          x-data
+        ></a>
+      </div>
+    </div>
+  </div>
+</html>

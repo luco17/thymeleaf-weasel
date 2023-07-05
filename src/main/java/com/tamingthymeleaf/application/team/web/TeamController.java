@@ -1,10 +1,7 @@
 package com.tamingthymeleaf.application.team.web;
 
 import com.tamingthymeleaf.application.infrastructure.web.EditMode;
-import com.tamingthymeleaf.application.team.Team;
-import com.tamingthymeleaf.application.team.TeamId;
-import com.tamingthymeleaf.application.team.TeamNotFoundException;
-import com.tamingthymeleaf.application.team.TeamService;
+import com.tamingthymeleaf.application.team.*;
 import com.tamingthymeleaf.application.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +36,7 @@ public class TeamController {
     public String createTeamForm(Model model) {
         model.addAttribute("team", new CreateTeamFormData());
         model.addAttribute("users", userService.getAllUsersNameAndId());
+        model.addAttribute("positions", PlayerPosition.values());
         return "teams/edit";
     }
 

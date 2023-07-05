@@ -2,10 +2,11 @@ package com.tamingthymeleaf.application.team;
 
 import com.tamingthymeleaf.application.user.User;
 import io.github.wimdeblauwe.jpearl.AbstractVersionedEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Team extends AbstractVersionedEntity<TeamId> {
@@ -15,6 +16,9 @@ public class Team extends AbstractVersionedEntity<TeamId> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User coach;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TeamPlayer> players;
 
     /**
      * Default constructor for JPA
@@ -26,6 +30,7 @@ public class Team extends AbstractVersionedEntity<TeamId> {
         super(id);
         this.name = name;
         this.coach = coach;
+        this.players = new HashSet<>();
     }
 
     public String getName() {
@@ -42,5 +47,21 @@ public class Team extends AbstractVersionedEntity<TeamId> {
 
     public void setCoach(User coach) {
         this.coach = coach;
+    }
+
+    public void addPlayer(TeamPlayer player) {
+        players.add(player);
+        player.setTeam(this);
+    }
+
+    public Set<TeamPlayer> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<TeamPlayer> players) {
+        this.players.clear();
+        for (TeamPlayer player : players) {
+            addPlayer(player);
+        }
     }
 }
