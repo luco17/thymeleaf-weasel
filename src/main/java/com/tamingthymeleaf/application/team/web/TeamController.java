@@ -59,6 +59,7 @@ public class TeamController {
         Team team = teamService.getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
         model.addAttribute("team", EditTeamFormData.fromTeam(team));
         model.addAttribute("users", userService.getAllUsersNameAndId());
+        model.addAttribute("positions", PlayerPosition.values());
         model.addAttribute("editMode", EditMode.UPDATE);
         return "teams/edit";
     }
@@ -73,6 +74,7 @@ public class TeamController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("editMode", EditMode.UPDATE);
             model.addAttribute("users", userService.getAllUsersNameAndId());
+            model.addAttribute("positions", PlayerPosition.values());
             return "teams/edit";
         }
         Team team = teamService.getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));

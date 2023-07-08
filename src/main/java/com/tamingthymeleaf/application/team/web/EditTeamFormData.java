@@ -12,6 +12,9 @@ public class EditTeamFormData extends CreateTeamFormData {
         result.setVersion(team.getVersion());
         result.setName(team.getName());
         result.setCoachId(team.getCoach().getId());
+//        result.setPlayers(team.getPlayers().stream()
+//                .map(TeamPlayerFormData::fromTeamPlayer)
+//                .toArray(TeamPlayerFormData[]::new));
         return result;
     }
 
@@ -30,4 +33,5 @@ public class EditTeamFormData extends CreateTeamFormData {
     public void setVersion(long version) {
         this.version = version;
     }
+
 }
