@@ -50,6 +50,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public Optional<Team> getTeamWithPlayers(TeamId teamId) {
+        return repository.findTeamWithPlayers(teamId);
+    }
+
+    @Override
     public Team editTeam(TeamId teamId, long version, String name, UserId coachId) {
         Team team = getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
         if (team.getVersion() != version) {
@@ -74,6 +79,23 @@ public class TeamServiceImpl implements TeamService {
 
     private User getCoach(UserId coachId) {
         return userService.getUser(coachId).orElseThrow(() -> new UserNotFoundException(coachId));
+    }
+
+    @Override
+    public Team addPlayer(TeamId teamId, long version, UserId userId, PlayerPosition position) {
+        Team team = getTeam(teamId)
+                .orElseThrow(() -> new TeamNotFoundException(teamId));
+        if (team.getVersion() != version) {
+            throw new ObjectOptimisticLockingFailureException(User.class, team.getId().asString());
+        }
+
+        team.addPlayer(new TeamPlayer(repository.nextPlayerId(), getUser(userId), position));
+
+        return team;
+    }
+
+    private User getUser(UserId userId) {
+        return userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
 }

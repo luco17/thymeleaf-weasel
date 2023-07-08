@@ -16,9 +16,13 @@ public interface TeamService {
 
     Optional<Team> getTeam(TeamId teamId);
 
+    Optional<Team> getTeamWithPlayers(TeamId teamId);
+
     Team editTeam(TeamId teamId, long version, String name, UserId coachId);
 
     void deleteTeam(TeamId teamId);
 
     void deleteAllTeams();
+
+    Team addPlayer(TeamId id, long version, UserId userId, PlayerPosition position);
 }

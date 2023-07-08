@@ -56,7 +56,7 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public String editTeamForm(@PathVariable("id") TeamId teamId, Model model) {
-        Team team = teamService.getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
+        Team team = teamService.getTeamWithPlayers(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
         model.addAttribute("team", EditTeamFormData.fromTeam(team));
         model.addAttribute("users", userService.getAllUsersNameAndId());
         model.addAttribute("positions", PlayerPosition.values());
