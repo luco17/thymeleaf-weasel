@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,15 +35,17 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team createTeam(String name, User coach) {
+    public Team createTeam(CreateTeamParameters parameters) {
+        String name = parameters.getName();
+        User coach = getUser(parameters.getCoachId());
         LOGGER.info("Creating team {} with coach {} ({})", name, coach.getUserName().getFullName(), coach.getId());
-        return repository.save(new Team(repository.nextId(), name, coach));
-    }
-
-    @Override
-    public Team createTeam(String name, UserId coachId) {
-        User coach = getCoach(coachId);
-        return createTeam(name, coach);
+        Team team = new Team(repository.nextId(), name, coach);
+        Set<TeamPlayerParameters> players = parameters.getPlayers();
+        for (TeamPlayerParameters player : players) {
+            team.addPlayer(new TeamPlayer(repository.nextPlayerId(),
+                    getUser(player.playerId()), player.position()));
+        }
+        return repository.save(team);
     }
 
     @Override
@@ -55,14 +59,16 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team editTeam(TeamId teamId, long version, String name, UserId coachId) {
+    public Team editTeam(TeamId teamId, EditTeamParameters parameters) {
         Team team = getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
-        if (team.getVersion() != version) {
+        if (team.getVersion() != parameters.getVersion()) {
             throw new ObjectOptimisticLockingFailureException(User.class, team.getId().asString());
         }
 
-        team.setName(name);
-        team.setCoach(getCoach(coachId));
+        team.setName(parameters.getName());
+        team.setCoach(getUser(parameters.getCoachId()));
+        team.setPlayers(parameters.getPlayers().stream().map(teamPlayerParameters -> new TeamPlayer(repository.nextPlayerId(), getUser(teamPlayerParameters.playerId()), teamPlayerParameters.position()))
+                .collect(Collectors.toSet()));
 
         return team;
     }

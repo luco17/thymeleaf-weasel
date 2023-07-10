@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface TeamService {
     Page<TeamSummary> getTeams(Pageable pageable);
 
-    Team createTeam(String name, User coach);
+    Team createTeam(CreateTeamParameters parameters);
 
     Team createTeam(String name, UserId coachId);
 
@@ -18,7 +18,7 @@ public interface TeamService {
 
     Optional<Team> getTeamWithPlayers(TeamId teamId);
 
-    Team editTeam(TeamId teamId, long version, String name, UserId coachId);
+    Team editTeam(EditTeamParameters parameters);
 
     void deleteTeam(TeamId teamId);
 
