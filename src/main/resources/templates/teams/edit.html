@@ -124,5 +124,36 @@
         </div>
       </div>
     </div>
+    <th:block layout:fragment="page-scripts">
+      <script>
+        function addExtraTeamPlayerForm() {
+          const teamPlayerForms = document.getElementById("teamplayer-forms");
+          const count = teamPlayerForms.getAttribute("data-teamplayers-count");
+          fetch(`/teams/edit-teamplayer-fragment?index=${count}`)
+            .then((response) => response.text())
+            .then((fragment) => {
+              teamPlayerForms.appendChild(htmlToElement(fragment));
+              teamPlayerForms.setAttribute(
+                "data-teamplayers-count",
+                parseInt(count) + 1
+              );
+            });
+        }
+
+        function removeTeamPlayerForm(formIndex) {
+          const teamplayerForm = document.getElementById(
+            "teamplayer-form-section-" + formIndex
+          );
+          teamplayerForm.parentElement.removeChild(teamplayerForm);
+        }
+
+        function htmlToElement(html) {
+          const template = document.createElement("template");
+          html = html.trim();
+          template.innerHTML = html;
+          return template.content.firstChild;
+        }
+      </script>
+    </th:block>
   </body>
 </html>
