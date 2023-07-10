@@ -97,4 +97,27 @@ public class TeamController {
 
         return "redirect:/teams";
     }
+
+    @GetMapping("/edit-teamplayer-fragment")
+    @Secured("ROLE_ADMIN")
+    public String getEditTeamPlayerFragment(Model model, @RequestParam("index") int index) {
+        model.addAttribute("index", index);
+        model.addAttribute("users", userService.getAllUsersNameAndId());
+        model.addAttribute("positions", PlayerPosition.values());
+        model.addAttribute("teamObjectName", "dummyTeam");
+        model.addAttribute("dummyTeam", new DummyTeamForTeamPlayerFragment());
+        return "teams/edit-teamplayer-fragment :: teamplayer-form";
+    }
+
+    private static class DummyTeamForTeamPlayerFragment {
+        private TeamPlayerFormData[] players;
+
+        public TeamPlayerFormData[] getPlayers() {
+            return players;
+        }
+
+        public void setPlayers(TeamPlayerFormData[] players) {
+            this.players = players;
+        }
+    }
 }
