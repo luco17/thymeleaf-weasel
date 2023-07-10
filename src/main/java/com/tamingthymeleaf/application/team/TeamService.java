@@ -1,6 +1,5 @@
 package com.tamingthymeleaf.application.team;
 
-import com.tamingthymeleaf.application.user.User;
 import com.tamingthymeleaf.application.user.UserId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,13 +11,11 @@ public interface TeamService {
 
     Team createTeam(CreateTeamParameters parameters);
 
-    Team createTeam(String name, UserId coachId);
+    Team editTeam(TeamId teamId, EditTeamParameters parameters);
 
     Optional<Team> getTeam(TeamId teamId);
 
     Optional<Team> getTeamWithPlayers(TeamId teamId);
-
-    Team editTeam(EditTeamParameters parameters);
 
     void deleteTeam(TeamId teamId);
 
