@@ -1,5 +1,9 @@
 package com.tamingthymeleaf.application.infrastructure.test;
 
+import com.google.common.collect.ImmutableSortedSet;
+import com.tamingthymeleaf.application.team.CreateTeamParameters;
+import com.tamingthymeleaf.application.team.PlayerPosition;
+import com.tamingthymeleaf.application.team.TeamPlayerParameters;
 import com.tamingthymeleaf.application.team.TeamService;
 import com.tamingthymeleaf.application.user.*;
 import org.springframework.context.annotation.Profile;
@@ -8,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/integration-test")
@@ -23,6 +28,7 @@ public class IntegrationTestController {
 
     @PostMapping("/reset-db")
     public void resetDatabase() {
+        teamService.deleteAllTeams();
         userService.deleteAllUsers();
 
         addUser();
@@ -31,8 +37,10 @@ public class IntegrationTestController {
 
     @PostMapping("/add-test-team")
     public void addTestTeam() {
-        UserNameAndId userNameAndId = userService.getAllUsersNameAndId().first();
-        teamService.createTeam("Test Team", userNameAndId.getId());
+        ImmutableSortedSet<UserNameAndId> users = userService.getAllUsersNameAndId();
+        UserNameAndId userNameAndId = users.first();
+
+        teamService.createTeam(new CreateTeamParameters("Test Team", userNameAndId.getId(), Set.of(new TeamPlayerParameters(users.last().getId(), PlayerPosition.POINT_GUARD))));
     }
 
     private void addUser() {

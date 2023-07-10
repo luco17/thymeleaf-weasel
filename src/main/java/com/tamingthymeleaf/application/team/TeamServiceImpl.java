@@ -83,10 +83,6 @@ public class TeamServiceImpl implements TeamService {
         repository.deleteAll();
     }
 
-    private User getCoach(UserId coachId) {
-        return userService.getUser(coachId).orElseThrow(() -> new UserNotFoundException(coachId));
-    }
-
     @Override
     public Team addPlayer(TeamId teamId, long version, UserId userId, PlayerPosition position) {
         Team team = getTeam(teamId)

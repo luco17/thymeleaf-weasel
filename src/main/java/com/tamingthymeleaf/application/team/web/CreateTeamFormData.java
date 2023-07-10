@@ -1,10 +1,17 @@
 package com.tamingthymeleaf.application.team.web;
 
+import com.tamingthymeleaf.application.team.CreateTeamParameters;
+import com.tamingthymeleaf.application.team.TeamPlayerParameters;
 import com.tamingthymeleaf.application.user.UserId;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CreateTeamFormData {
     @NotBlank(message = "Your team needs a name")
@@ -46,4 +53,20 @@ public class CreateTeamFormData {
     public void setPlayers(TeamPlayerFormData[] players) {
         this.players = players;
     }
+
+    public CreateTeamParameters toParameters() {
+        return new CreateTeamParameters(name, coachId, getTeamPlayerParameters());
+    }
+
+    @Nonnull
+    protected Set<TeamPlayerParameters> getTeamPlayerParameters() {
+        return Arrays.stream(players)
+                .map(teamPlayerFormData -> new TeamPlayerParameters(
+                        teamPlayerFormData.getPlayerId(),
+                        teamPlayerFormData.getPosition())
+                )
+                .collect(Collectors.toSet());
+    }
+
+
 }

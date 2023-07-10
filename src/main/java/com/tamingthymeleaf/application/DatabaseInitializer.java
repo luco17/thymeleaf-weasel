@@ -3,9 +3,7 @@ package com.tamingthymeleaf.application;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import com.google.common.collect.Streams;
-import com.tamingthymeleaf.application.team.PlayerPosition;
-import com.tamingthymeleaf.application.team.Team;
-import com.tamingthymeleaf.application.team.TeamService;
+import com.tamingthymeleaf.application.team.*;
 import com.tamingthymeleaf.application.user.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.CommandLineRunner;
@@ -64,16 +62,14 @@ public class DatabaseInitializer implements CommandLineRunner {
         Streams.forEachPair(generatedUsers.stream().limit(TEAM_NAMES.length),
                 Arrays.stream(TEAM_NAMES),
                 (user, teamName) -> {
-                    System.out.println(user);
-                    Team team = teamService.createTeam(teamName, user);
-                    team = teamService.addPlayer(team.getId(), team.getVersion(),
-                            randomUser(generatedUsers), PlayerPosition.SMALL_FORWARD);
-                    team = teamService.addPlayer(team.getId(), team.getVersion(),
-                            randomUser(generatedUsers), PlayerPosition.SHOOTING_GUARD);
-                    team = teamService.addPlayer(team.getId(), team.getVersion(),
-                            randomUser(generatedUsers), PlayerPosition.CENTER);
-                }
-        );
+            Set<TeamPlayerParameters> players = Set.of(
+                    new TeamPlayerParameters(randomUser(generatedUsers), PlayerPosition.SMALL_FORWARD),
+                    new TeamPlayerParameters(randomUser(generatedUsers), PlayerPosition.SHOOTING_GUARD),
+                    new TeamPlayerParameters(randomUser(generatedUsers), PlayerPosition.CENTER)
+            );
+                    CreateTeamParameters teamParameters = new CreateTeamParameters(teamName, user.getId(), players);
+                    teamService.createTeam(teamParameters);
+                });
     }
 
     private UserId randomUser(Set<User> users) {

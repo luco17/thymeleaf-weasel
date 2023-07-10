@@ -1,5 +1,6 @@
 package com.tamingthymeleaf.application.team.web;
 
+import com.tamingthymeleaf.application.team.EditTeamParameters;
 import com.tamingthymeleaf.application.team.Team;
 
 public class EditTeamFormData extends CreateTeamFormData {
@@ -34,4 +35,13 @@ public class EditTeamFormData extends CreateTeamFormData {
         this.version = version;
     }
 
+    @Override
+    public EditTeamParameters toParameters() {
+        return new EditTeamParameters(
+                version,
+                getName(),
+                getCoachId(),
+                getTeamPlayerParameters()
+        );
+    }
 }

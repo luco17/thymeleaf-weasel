@@ -49,7 +49,7 @@ public class TeamController {
             return "teams/edit";
         }
 
-        teamService.createTeam(formData.getName(), formData.getCoachId());
+        teamService.createTeam(formData.toParameters());
 
         return "redirect:/teams";
     }
@@ -79,7 +79,7 @@ public class TeamController {
         }
         Team team = teamService.getTeam(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
 
-        teamService.editTeam(teamId, formData.getVersion(), formData.getName(), formData.getCoachId());
+        teamService.editTeam(teamId, formData.toParameters());
 
         redirectAttributes.addFlashAttribute("editedTeam", team.getName());
 
