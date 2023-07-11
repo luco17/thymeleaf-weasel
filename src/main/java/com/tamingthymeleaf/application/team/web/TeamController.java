@@ -10,8 +10,13 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.annotation.Nonnull;
 
 @Controller
 @RequestMapping("/teams")
@@ -23,6 +28,11 @@ public class TeamController {
     public TeamController(TeamService teamService, UserService userService) {
         this.teamService = teamService;
         this.userService = userService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(new RemoveUnusedTeamPlayersValidator(binder.getValidator()));
     }
 
     @GetMapping
@@ -118,6 +128,28 @@ public class TeamController {
 
         public void setPlayers(TeamPlayerFormData[] players) {
             this.players = players;
+        }
+    }
+
+    private static class RemoveUnusedTeamPlayersValidator implements Validator {
+        private final Validator validator;
+
+        private RemoveUnusedTeamPlayersValidator(Validator validator) {
+            this.validator = validator;
+        }
+
+        @Override
+        public boolean supports(@Nonnull Class<?> clazz) {
+            return validator.supports(clazz);
+        }
+
+        @Override
+        public void validate(@Nonnull Object target, @Nonnull Errors errors) {
+            if (target instanceof CreateTeamFormData formData) {
+                formData.removeEmptyTeamPlayerForms();
+            }
+
+            validator.validate(target, errors);
         }
     }
 }

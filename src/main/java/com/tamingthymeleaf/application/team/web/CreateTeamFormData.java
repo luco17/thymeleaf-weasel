@@ -68,5 +68,15 @@ public class CreateTeamFormData {
                 .collect(Collectors.toSet());
     }
 
+    public void removeEmptyTeamPlayerForms() {
+        setPlayers(Arrays.stream(players)
+                .filter(this::isNotEmptyTeamPlayerForm)
+                .toArray(TeamPlayerFormData[]::new));
+    }
 
+    private boolean isNotEmptyTeamPlayerForm(TeamPlayerFormData formData) {
+        return formData != null
+                && formData.getPlayerId() != null
+                && formData.getPosition() != null;
+    }
 }
